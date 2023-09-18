@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 
+import { OrbitControls } from '@react-three/drei'
 import { Canvas, useThree } from '@react-three/fiber'
 
 import Box from '../components/Box'
@@ -14,6 +15,7 @@ const Scene = ({ extraBoxCount }: { extraBoxCount: number }) => {
 
   return (
     <>
+      <OrbitControls />
       <pointLight intensity={10} position={[1, 1, 1]} castShadow />
       <pointLight intensity={10} position={[-1, -1, -1]} castShadow />
       <pointLight intensity={10} position={[1, 0, -1]} castShadow />
