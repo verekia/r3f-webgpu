@@ -2,7 +2,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "next": "next start"
+    "start": "next start"
   },
   "dependencies": {
     "@react-three/drei": "9.83.9",

@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react'
 import { Canvas, useThree } from '@react-three/fiber'
 
 import Box from '../components/Box'
-import Stats from '../components/Stats'
+import UI from '../components/UI'
 
-const Scene = () => {
+const Scene = ({ extraBoxCount }: { extraBoxCount: number }) => {
   const { gl } = useThree()
 
   useEffect(() => {
@@ -14,9 +14,12 @@ const Scene = () => {
 
   return (
     <>
-      <ambientLight intensity={5} />
+      <directionalLight intensity={5} position-z={2} />
       <Box position-x={-1.2} />
       <Box position-x={1.2} />
+      {Array.from({ length: extraBoxCount }).map((_, i) => (
+        <Box key={i} position-x={Math.random() * 10 - 5} position-y={Math.random() * 6 - 3} />
+      ))}
     </>
   )
 }
@@ -27,6 +30,7 @@ const IndexPage = () => {
   const [isWebGPUAvailable, setIsWebGPUAvailable] = useState(false)
   const [isWebGPU, setIsWebGPU] = useState(false)
   const [isReady, setIsReady] = useState(false)
+  const [extraBoxCount, setExtraBoxCount] = useState(0)
 
   useEffect(() => {
     const fn = async () => {
@@ -43,25 +47,14 @@ const IndexPage = () => {
 
   return (
     <>
-      <div style={{ position: 'fixed', top: 0, right: 0, zIndex: 1 }}>
-        <div>{isWebGPUAvailable ? 'WebGPU supported' : 'WebGPU not supported'}</div>
-        <label>
-          <input
-            type="checkbox"
-            checked={isWebGPU}
-            onChange={e => {
-              setIsReady(false)
-              setIsWebGPU(e.target.checked)
-              // This is to fully unmount the canvas, because for some reason
-              // it seems like it gets reused when switching between WebGL and WebGPU.
-              // Maybe due to some optimization in R3F?
-              setTimeout(() => setIsReady(true), 500)
-            }}
-          />
-          WebGPU
-        </label>
-      </div>
-      <Stats />
+      <UI
+        isWebGPUAvailable={isWebGPUAvailable}
+        isWebGPU={isWebGPU}
+        setIsReady={setIsReady}
+        setIsWebGPU={setIsWebGPU}
+        extraBoxCount={extraBoxCount}
+        setExtraBoxCount={setExtraBoxCount}
+      />
       {isReady && (
         <Canvas
           {...(isWebGPU && {
@@ -76,7 +69,7 @@ const IndexPage = () => {
             },
           })}
         >
-          <Scene />
+          <Scene extraBoxCount={extraBoxCount} />
         </Canvas>
       )}
     </>
