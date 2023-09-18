@@ -14,11 +14,22 @@ const Scene = ({ extraBoxCount }: { extraBoxCount: number }) => {
 
   return (
     <>
-      <directionalLight intensity={5} position-z={2} />
-      <Box position-x={-1.2} />
-      <Box position-x={1.2} />
+      <pointLight intensity={10} position={[1, 1, 1]} castShadow />
+      <pointLight intensity={10} position={[-1, -1, -1]} castShadow />
+      <pointLight intensity={10} position={[1, 0, -1]} castShadow />
+      <pointLight intensity={10} position={[-1, 0, 1]} castShadow />
+      <pointLight intensity={10} position={[0, 0, 2]} castShadow />
+      <Box position-x={-1.2} castShadow receiveShadow />
+      <Box position-x={1.2} castShadow receiveShadow />
       {Array.from({ length: extraBoxCount }).map((_, i) => (
-        <Box key={i} position-x={Math.random() * 10 - 5} position-y={Math.random() * 6 - 3} />
+        <Box
+          key={i}
+          position-x={Math.random() * 10 - 5}
+          position-y={Math.random() * 6 - 3}
+          position-z={Math.random() * -10}
+          castShadow
+          receiveShadow
+        />
       ))}
     </>
   )
@@ -57,6 +68,7 @@ const IndexPage = () => {
       />
       {isReady && (
         <Canvas
+          shadows
           {...(isWebGPU && {
             gl: canvas => {
               if (!WebGPURenderer) {
