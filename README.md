@@ -15,4 +15,4 @@ https://github.com/mrdoob/three.js/issues/26518
 
 ### Performance
 
-It seems like WebGPU struggles to render more than a dozen boxes. WebGL can render 10.000 on my M1 (at 20fps).
+It seems like WebGPU struggles to initialize the content of the scene more than WebGL. On a M1 Macbook Pro, the WebGPU renderer almost crashes the tab when selecting 50 boxes, and WebGL can quickly render 10.000 boxes (at 20fps).
