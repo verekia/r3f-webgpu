@@ -27,12 +27,22 @@ const Box = (props: MeshProps) => {
   )
 }
 
-const App = () => (
-  <Canvas>
-    <ambientLight intensity={5} />
-    <Box position-x={-1.2} />
-    <Box position-x={1.2} />
-  </Canvas>
-)
+const IndexPage = () => {
+  const [isWebGPU, setIsWebGPU] = useState(false)
 
-export default App
+  return (
+    <>
+      <label style={{ position: 'fixed', top: 0, right: 0, zIndex: 1 }}>
+        <input type="checkbox" checked={isWebGPU} onChange={e => setIsWebGPU(e.target.checked)} />
+        WebGPU
+      </label>
+      <Canvas>
+        <ambientLight intensity={5} />
+        <Box position-x={-1.2} />
+        <Box position-x={1.2} />
+      </Canvas>
+    </>
+  )
+}
+
+export default IndexPage

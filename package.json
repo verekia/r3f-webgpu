@@ -1,11 +1,13 @@
 {
   "scripts": {
-    "dev": "bun build ./index.tsx --outfile bundle.js --watch",
-    "build": "NODE_ENV=production bun build ./index.tsx --outfile bundle.js"
+    "dev": "next dev",
+    "build": "next build",
+    "next": "next start"
   },
   "dependencies": {
     "@react-three/drei": "9.83.9",
     "@react-three/fiber": "8.14.2",
+    "next": "13.4.19",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "three": "0.156.1"
