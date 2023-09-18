@@ -6,7 +6,7 @@
 
 `renderer.setClearColor(0x000000, 0)`
 
-### Only works in develepoment mode
+### Only works in development mode
 
 Blocking for production builds:
 
