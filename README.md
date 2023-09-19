@@ -24,3 +24,22 @@ It seems like WebGPU struggles to initialize the content of the scene more than 
 
 - Rendering 100 boxes with WebGPU takes 40 seconds (freezes the tab).
 - Rendering 10.000 boxes with WebGL takes 2 seconds (runs at 5fps).
+
+### Other way to set up the canvas (from Cody)
+
+```jsx
+<Canvas
+  onCreated={state => {
+    if ('gpu' in navigator) {
+      state.set({ frameloop: 'never' })
+      import('three/addons/renderers/webgpu/WebGPURenderer.js').then(
+        async ({ default: WebGPURenderer }) => {
+          const canvas = state.gl.domElement
+          const gl = await new WebGPURenderer(canvas).init()
+          state.set({ frameloop: 'always', gl })
+        }
+      )
+    }
+  }}
+/>
+```
