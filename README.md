@@ -1,14 +1,26 @@
 # r3f-webgpu
 
-## Notes
+## Bugs
 
-### Set the clear color
+- Casting shadows from a Directional Light crashes
 
-`renderer.setClearColor(0x000000, 0)`
+https://github.com/mrdoob/three.js/blob/89e698f56604741244a2f7746edc0d876cec83ed/examples/jsm/nodes/accessors/TextureNode.js#L52
 
-### Only works in development mode
+```
+TextureNode.js:52 Uncaught (in promise) TypeError: Cannot read properties of null (reading 'channel')
+    at Proxy.getDefaultUV (TextureNode.js:52:12)
+    at Proxy.construct (TextureNode.js:87:1)
+```
 
-Blocking for production builds:
+```
+    getDefaultUV() {
+
+        return uv( this.value.channel ); ❌
+
+    }
+```
+
+- Only works in development mode:
 
 Nodes module uses class names to register nodes (addNodeClass) which crashes in production
 https://github.com/mrdoob/three.js/issues/26518
@@ -16,7 +28,8 @@ https://github.com/mrdoob/three.js/issues/26518
 ### Drei helpers support
 
 - ✅ OrbitControls
-- ❌ useTexture https://github.com/pmndrs/drei/issues/1653
+- ✅ useTexture
+- ✅ Instances
 
 ### Performance
 
@@ -24,6 +37,12 @@ It seems like WebGPU struggles to initialize the content of the scene more than 
 
 - Rendering 100 boxes with WebGPU takes 40 seconds (freezes the tab).
 - Rendering 10.000 boxes with WebGL takes 2 seconds (runs at 5fps).
+
+## Notes
+
+### Set the clear color
+
+`renderer.setClearColor(0x000000, 0)`
 
 ### Other way to set up the canvas (from Cody)
 

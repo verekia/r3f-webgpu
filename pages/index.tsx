@@ -15,6 +15,7 @@ const Scene = ({ extraBoxCount }: { extraBoxCount: number }) => {
 
   return (
     <>
+      <directionalLight intensity={1} position={[0, 0, 1]} /* castShadow */ />
       <OrbitControls />
       <pointLight intensity={10} position={[1, 1, 1]} castShadow />
       <pointLight intensity={10} position={[-1, -1, -1]} castShadow />

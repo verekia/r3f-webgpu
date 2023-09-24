@@ -10,7 +10,7 @@ const Box = (props: MeshProps) => {
   const [hovered, setHover] = useState(false)
   const [active, setActive] = useState(false)
 
-  // const texture = useTexture('/cat.jpg')
+  const texture = useTexture('/cat.jpg')
 
   useFrame((_, dt) => (meshRef.current.rotation.x += dt))
 
@@ -24,7 +24,7 @@ const Box = (props: MeshProps) => {
       onPointerOut={() => setHover(false)}
     >
       <boxGeometry />
-      <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} /* map={texture} */ />
+      <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} map={texture} />
     </mesh>
   )
 }
