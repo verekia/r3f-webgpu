@@ -1,5 +1,11 @@
 # r3f-webgpu
 
+## How to use
+
+`npm i` or `yarn` or `bun i`
+
+Then `npm run dev` or `yarn dev` or `bun dev`
+
 ## Bugs
 
 - Casting shadows from a Directional Light crashes
