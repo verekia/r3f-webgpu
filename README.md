@@ -12,7 +12,7 @@ Then `npm run dev` or `yarn dev` or `bun dev`
 
 To reproduce:
 
-Uncomment `castShadows` in
+Uncomment `castShadows` in `src/index.tsx`:
 
 ```jsx
 <directionalLight intensity={1} position={[0, 0, 1]} /* castShadow */ />
@@ -34,10 +34,9 @@ TextureNode.js:52 Uncaught (in promise) TypeError: Cannot read properties of nul
     }
 ```
 
-### Only works in development mode:
+### Minified code crashes
 
-Nodes module uses class names to register nodes (addNodeClass) which crashes in production
-https://github.com/mrdoob/three.js/issues/26518
+Nodes module uses class names to register nodes (addNodeClass) which crashes in production: https://github.com/mrdoob/three.js/issues/26518
 
 ## Drei helpers support
 
