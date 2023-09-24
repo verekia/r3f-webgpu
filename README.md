@@ -8,9 +8,17 @@ Then `npm run dev` or `yarn dev` or `bun dev`
 
 ## Bugs
 
-- Casting shadows from a Directional Light crashes
+### Casting shadows from a Directional Light crashes
 
-https://github.com/mrdoob/three.js/blob/89e698f56604741244a2f7746edc0d876cec83ed/examples/jsm/nodes/accessors/TextureNode.js#L52
+To reproduce:
+
+Uncomment `castShadows` in
+
+```jsx
+<directionalLight intensity={1} position={[0, 0, 1]} /* castShadow */ />
+```
+
+It crashes on this [line of TextureNode.js](https://github.com/mrdoob/three.js/blob/89e698f56604741244a2f7746edc0d876cec83ed/examples/jsm/nodes/accessors/TextureNode.js#L52).
 
 ```
 TextureNode.js:52 Uncaught (in promise) TypeError: Cannot read properties of null (reading 'channel')
@@ -26,18 +34,18 @@ TextureNode.js:52 Uncaught (in promise) TypeError: Cannot read properties of nul
     }
 ```
 
-- Only works in development mode:
+### Only works in development mode:
 
 Nodes module uses class names to register nodes (addNodeClass) which crashes in production
 https://github.com/mrdoob/three.js/issues/26518
 
-### Drei helpers support
+## Drei helpers support
 
 - ✅ OrbitControls
 - ✅ useTexture
 - ✅ Instances
 
-### Performance
+## Performance
 
 It seems like WebGPU struggles to initialize the content of the scene more than WebGL. On a M1 Macbook Pro:
 
