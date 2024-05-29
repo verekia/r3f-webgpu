@@ -78,7 +78,7 @@ const IndexPage = () => {
                 throw Error('WebGPU renderer not loaded')
               }
               const r = new WebGPURenderer({ canvas })
-              r.setClearColor(0x000000, 0)
+              r.setClearColor(0xffffff, 20)
               r.xr = { addEventListener: () => {} }
               return r
             },

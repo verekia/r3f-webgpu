@@ -46,10 +46,10 @@ Nodes module uses class names to register nodes (addNodeClass) which crashes in 
 
 ## Performance
 
-It seems like WebGPU struggles to initialize the content of the scene more than WebGL. On a M1 Macbook Pro:
+On an M3 Macbook Air:
 
-- Rendering 100 boxes with WebGPU takes 40 seconds (freezes the tab).
-- Rendering 10.000 boxes with WebGL takes 2 seconds (runs at 5fps).
+- Rendering 5000 boxes with WebGPU runs at ~30fps.
+- Rendering 5000 boxes with WebGL runs at ~14fps.
 
 ## Notes
 
