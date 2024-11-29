@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 
-import { OrbitControls } from '@react-three/drei'
+import { OrbitControls, Stats } from '@react-three/drei'
 import { Canvas, useThree } from '@react-three/fiber'
+// @ts-expect-error
+import { WebGPURenderer } from 'three/webgpu'
 
 import Box from '../components/Box'
 import UI from '../components/UI'
@@ -15,7 +17,7 @@ const Scene = ({ extraBoxCount }: { extraBoxCount: number }) => {
 
   return (
     <>
-      <directionalLight intensity={1} position={[0, 0, 1]} /* castShadow */ />
+      <directionalLight intensity={1} position={[0, 0, 1]} castShadow />
       <OrbitControls />
       <pointLight intensity={10} position={[1, 1, 1]} castShadow />
       <pointLight intensity={10} position={[-1, -1, -1]} castShadow />
@@ -38,55 +40,16 @@ const Scene = ({ extraBoxCount }: { extraBoxCount: number }) => {
   )
 }
 
-let WebGPURenderer
-
 const IndexPage = () => {
-  const [isWebGPUAvailable, setIsWebGPUAvailable] = useState(false)
-  const [isWebGPU, setIsWebGPU] = useState(false)
-  const [isReady, setIsReady] = useState(false)
   const [extraBoxCount, setExtraBoxCount] = useState(0)
-
-  useEffect(() => {
-    const fn = async () => {
-      // @ts-ignore
-      const capabilities = (await import('three/addons/capabilities/WebGPU.js')).default
-      // @ts-ignore
-      WebGPURenderer = (await import('three/addons/renderers/webgpu/WebGPURenderer.js')).default
-      setIsWebGPUAvailable(capabilities.isAvailable())
-      setIsWebGPU(capabilities.isAvailable())
-      setIsReady(true)
-    }
-    fn()
-  }, [])
 
   return (
     <>
-      <UI
-        isWebGPUAvailable={isWebGPUAvailable}
-        isWebGPU={isWebGPU}
-        setIsReady={setIsReady}
-        setIsWebGPU={setIsWebGPU}
-        extraBoxCount={extraBoxCount}
-        setExtraBoxCount={setExtraBoxCount}
-      />
-      {isReady && (
-        <Canvas
-          shadows
-          {...(isWebGPU && {
-            gl: canvas => {
-              if (!WebGPURenderer) {
-                throw Error('WebGPU renderer not loaded')
-              }
-              const r = new WebGPURenderer({ canvas })
-              r.setClearColor(0xffffff, 20)
-              r.xr = { addEventListener: () => {} }
-              return r
-            },
-          })}
-        >
-          <Scene extraBoxCount={extraBoxCount} />
-        </Canvas>
-      )}
+      <UI extraBoxCount={extraBoxCount} setExtraBoxCount={setExtraBoxCount} />
+      <Canvas shadows gl={canvas => new WebGPURenderer({ canvas, antialias: true })}>
+        <Scene extraBoxCount={extraBoxCount} />
+        <Stats />
+      </Canvas>
     </>
   )
 }
