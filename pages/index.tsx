@@ -42,11 +42,25 @@ const Scene = ({ extraBoxCount }: { extraBoxCount: number }) => {
 
 const IndexPage = () => {
   const [extraBoxCount, setExtraBoxCount] = useState(0)
+  const [frameloop, setFrameloop] = useState<'never' | 'always' | 'demand'>('never')
 
   return (
     <>
       <UI extraBoxCount={extraBoxCount} setExtraBoxCount={setExtraBoxCount} />
-      <Canvas shadows gl={canvas => new WebGPURenderer({ canvas, antialias: true })}>
+      <Canvas
+        shadows
+        frameloop={frameloop}
+        gl={canvas => {
+          const renderer = new WebGPURenderer({
+            canvas,
+            powerPreference: 'high-performance',
+            antialias: true,
+            alpha: true,
+          })
+          renderer.init().then(() => setFrameloop('always'))
+          return renderer
+        }}
+      >
         <Scene extraBoxCount={extraBoxCount} />
         <Stats />
       </Canvas>
